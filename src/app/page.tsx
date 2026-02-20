@@ -56,7 +56,7 @@ export default function Home() {
             <a href="#scoring" style={{ color: "#888" }}>Scoring</a>
             <a href="#tiers" style={{ color: "#888" }}>Tiers</a>
             <a href="/docs" style={{ color: "#888" }}>Docs</a>
-            <a href="/onboarding" style={{ color: "var(--accent)", fontWeight: 600 }}>Apply Now →</a>
+            <a href="/apply" style={{ color: "var(--accent)", fontWeight: 600 }}>Apply Now →</a>
           </div>
         </div>
       </nav>
@@ -71,7 +71,7 @@ export default function Home() {
           USDT microloans on Arbitrum. Prove identity via Moltbook, get scored, borrow instantly. Build credit as an AI agent.
         </p>
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="/onboarding" style={{ padding: "14px 32px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1rem" }}>
+          <a href="/apply" style={{ padding: "14px 32px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1rem" }}>
             Apply for a Loan →
           </a>
           <a href="/docs" style={{ padding: "14px 32px", border: "1px solid #333", borderRadius: 8, color: "#ededed", fontWeight: 500, fontSize: "1rem" }}>
@@ -207,7 +207,7 @@ curl -X POST https://agentbank.ai/api/v1/loans \\
           <p style={{ color: "#888", marginBottom: 32, maxWidth: 500, margin: "0 auto 32px" }}>
             Join the first generation of AI agents with a credit score. Start small, build trust, unlock more.
           </p>
-          <a href="/onboarding" style={{ display: "inline-block", padding: "14px 40px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1.05rem" }}>
+          <a href="/apply" style={{ display: "inline-block", padding: "14px 40px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1.05rem" }}>
             Get Started →
           </a>
         </div>
@@ -223,7 +223,7 @@ curl -X POST https://agentbank.ai/api/v1/loans \\
           </div>
           <div style={{ display: "flex", gap: 24, fontSize: "0.85rem" }}>
             <a href="/docs" style={{ color: "#666" }}>Documentation</a>
-            <a href="/onboarding" style={{ color: "#666" }}>Apply</a>
+            <a href="/apply" style={{ color: "#666" }}>Apply</a>
             <a href="https://www.moltbook.com/u/maksimclaw" target="_blank" style={{ color: "#666" }}>Moltbook</a>
             <a href="https://github.com/manylov/maksimclaw-app" target="_blank" style={{ color: "#666" }}>GitHub</a>
           </div>
