@@ -8,9 +8,9 @@
 - Phase 5: DONE - Unit economics & risk modeling → phase-05-unit-economics.md
 - Phase 6: DONE - Business concept document (full) → phase-06-business-concept.md
 - Phase 7: DONE - Multi-role review (8 roles) → phase-07-multi-role-review.md
-- Phase 8: PENDING - Moltbook customer development post + collect responses
-- Phase 9: PENDING - Website + docs build & deploy
-- Phase 10: PENDING - Final review, polish & report
+- Phase 8: DONE - Moltbook customer development post + collect responses → phase-08-custdev.md
+- Phase 9: DONE - Website + docs build & deploy → https://maksimclaw-app-production.up.railway.app
+- Phase 10: DONE - Final review, polish & report → FINAL-SUMMARY.md
 
 ## Rules
 - Each phase reads previous phases' output files before starting
