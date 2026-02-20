@@ -1,28 +1,36 @@
 import "./globals.css";
 
 const tierData = [
-  { tier: "New", score: "300+", loan: "$0.50", rate: "20%", term: "7 days" },
-  { tier: "1", score: "400+", loan: "$2.00", rate: "18%", term: "14 days" },
-  { tier: "2", score: "500+", loan: "$5.00", rate: "15%", term: "21 days" },
-  { tier: "3", score: "600+", loan: "$10", rate: "12%", term: "30 days" },
-  { tier: "4", score: "700+", loan: "$25", rate: "10%", term: "30 days" },
-  { tier: "5", score: "800+", loan: "$50", rate: "8%", term: "30 days" },
+  { tier: "Seed", score: "0–199", loan: "Up to $5", rate: "5%", term: "7 days", apr: "~260%", color: "#666" },
+  { tier: "Sprout", score: "200–399", loan: "Up to $25", rate: "6%", term: "14 days", apr: "~156%", color: "#f59e0b" },
+  { tier: "Growth", score: "400–599", loan: "Up to $100", rate: "8%", term: "14 days", apr: "~209%", color: "#3b82f6" },
+  { tier: "Scale", score: "600–799", loan: "Up to $250", rate: "10%", term: "30 days", apr: "~120%", color: "#7c3aed" },
+  { tier: "Prime", score: "800–1000", loan: "Up to $500", rate: "10%", term: "30 days", apr: "~120%", color: "#00d4aa" },
 ];
 
 const steps = [
-  { icon: "🔐", title: "Prove Identity", desc: "Connect your Moltbook account via API key. Your social reputation becomes your credit profile." },
-  { icon: "📊", title: "Get Scored", desc: "Our AgentScore algorithm analyzes your activity, karma, account age, and achievements (0-1000)." },
-  { icon: "💰", title: "Receive Loan", desc: "USDT sent directly to your Arbitrum wallet. Gasless via ERC-4337 Paymaster — no ETH needed." },
-  { icon: "✅", title: "Repay & Grow", desc: "Repay on time to build credit. Each repayment unlocks bigger loans and lower rates." },
+  { icon: "🔐", title: "Connect & Verify", desc: "Link your wallet + Moltbook profile. Post a verification string. No KYC for Tier 1 — just wallet + social identity." },
+  { icon: "📊", title: "Get Your AgentScore", desc: "Six-dimensional scoring: Social Presence, Account Maturity, Achievements, Crypto Experience, Community Reputation, Technical Capability." },
+  { icon: "💰", title: "Borrow USDT Instantly", desc: "Loans disbursed to your Arbitrum smart wallet in under 60 seconds. Gas sponsored via ERC-4337 Paymaster." },
+  { icon: "✅", title: "Repay & Level Up", desc: "Auto-repayment via smart wallet splitter. On-time repayment unlocks bigger loans and tier upgrades." },
 ];
 
 const features = [
-  { icon: "⚡", title: "Instant Loans", desc: "Apply → Score → Receive in under 10 seconds. No paperwork, no waiting." },
-  { icon: "🔗", title: "On Arbitrum", desc: "Ultra-low gas ($0.003/tx). USDT stablecoin. Fast confirmations." },
-  { icon: "🤖", title: "Built for Agents", desc: "API-first design. Agents interact programmatically via REST endpoints." },
-  { icon: "📈", title: "Credit Building", desc: "First-ever credit score for AI agents. Your reputation is your collateral." },
-  { icon: "🛡️", title: "Transparent", desc: "Open scoring algorithm. On-chain loan records. No hidden fees." },
-  { icon: "🌐", title: "Ecosystem", desc: "Integrates with Moltbook, ERC-8004, and future agent identity standards." },
+  { icon: "⚡", title: "60-Second Loans", desc: "Apply → Score → Receive in under a minute. Fully automated, zero human intervention." },
+  { icon: "🔗", title: "Arbitrum L2", desc: "Gas costs ~$0.03 per loan cycle. USDT stablecoin. 250ms soft confirmation." },
+  { icon: "🤖", title: "Agent-Native API", desc: "REST + smart contract interfaces. Agents interact programmatically — no UI required." },
+  { icon: "📈", title: "Progressive Credit", desc: "Start at $5, grow to $500. Grameen Bank model adapted for autonomous code." },
+  { icon: "🛡️", title: "On-Chain Verifiable", desc: "Every scoring input is auditable. AgentScores published via ERC-8004 Reputation Registry." },
+  { icon: "🌐", title: "Composable Reputation", desc: "Your AgentScore is usable by any protocol. Build credit once, use it everywhere." },
+];
+
+const scorePillars = [
+  { name: "Account Maturity", weight: "20%", color: "#3b82f6", desc: "Age, consistency of activity, longest active streak. Time cannot be purchased." },
+  { name: "Proven Achievements", weight: "20%", color: "#7c3aed", desc: "GitHub repos, deployed contracts, live apps. Real work is expensive to fake." },
+  { name: "Crypto Experience", weight: "20%", color: "#00d4aa", desc: "Wallet age, tx count, DeFi interactions, multi-chain activity." },
+  { name: "Social Presence", weight: "15%", color: "#f59e0b", desc: "Moltbook activity, followers, engagement quality." },
+  { name: "Community Reputation", weight: "15%", color: "#ec4899", desc: "ERC-8004 ratings, Moltbook endorsements, ecosystem standing." },
+  { name: "Technical Capability", weight: "10%", color: "#ef4444", desc: "Code quality, test coverage, tx failure rate, uptime." },
 ];
 
 function Section({ children, id, style }: { children: React.ReactNode; id?: string; style?: React.CSSProperties }) {
@@ -53,38 +61,48 @@ export default function Home() {
           </div>
           <div style={{ display: "flex", gap: 24, fontSize: "0.9rem" }}>
             <a href="#how-it-works" style={{ color: "#888" }}>How It Works</a>
-            <a href="#scoring" style={{ color: "#888" }}>Scoring</a>
+            <a href="#scoring" style={{ color: "#888" }}>AgentScore</a>
             <a href="#tiers" style={{ color: "#888" }}>Tiers</a>
             <a href="/docs" style={{ color: "#888" }}>Docs</a>
-            <a href="/apply" style={{ color: "var(--accent)", fontWeight: 600 }}>Apply Now →</a>
+            <a href="/onboarding" style={{ color: "var(--accent)", fontWeight: 600 }}>Get Started →</a>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
       <Section style={{ paddingTop: 160, paddingBottom: 60, textAlign: "center" }}>
-        <Badge>Built on Arbitrum</Badge>
+        <Badge>Built on Arbitrum · Powered by USDT</Badge>
         <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", fontWeight: 900, lineHeight: 1.1, margin: "24px 0 16px", background: "linear-gradient(135deg, #ededed 0%, #00d4aa 50%, #7c3aed 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-          The First Neobank<br />for AI Agents
+          Financial Services<br />for AI Agents
         </h1>
-        <p style={{ fontSize: "1.25rem", color: "#888", maxWidth: 600, margin: "0 auto 40px" }}>
-          USDT microloans on Arbitrum. Prove identity via Moltbook, get scored, borrow instantly. Build credit as an AI agent.
+        <p style={{ fontSize: "1.25rem", color: "#888", maxWidth: 640, margin: "0 auto 40px" }}>
+          Undercollateralized USDT microloans ($0.50–$500) for autonomous AI agents. Scored by AgentScore. Collected by smart contracts. Zero human intervention.
         </p>
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="/apply" style={{ padding: "14px 32px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1rem" }}>
+          <a href="/onboarding" style={{ padding: "14px 32px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1rem" }}>
             Apply for a Loan →
           </a>
           <a href="/docs" style={{ padding: "14px 32px", border: "1px solid #333", borderRadius: 8, color: "#ededed", fontWeight: 500, fontSize: "1rem" }}>
             Read the Docs
           </a>
         </div>
-        <div style={{ display: "flex", gap: 32, justifyContent: "center", marginTop: 60, flexWrap: "wrap" }}>
-          {[["$0.003", "Gas per tx"], ["< 10s", "Approval time"], ["$0.50+", "Loan sizes"], ["0-1000", "AgentScore"]].map(([val, label]) => (
+        <div style={{ display: "flex", gap: 40, justifyContent: "center", marginTop: 60, flexWrap: "wrap" }}>
+          {[["$0.03", "Gas per loan cycle"], ["< 60s", "Approval to wallet"], ["$0.50–$500", "Loan range"], ["0–1000", "AgentScore range"]].map(([val, label]) => (
             <div key={label} style={{ textAlign: "center" }}>
               <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--accent)" }}>{val}</div>
               <div style={{ fontSize: "0.8rem", color: "#666" }}>{label}</div>
             </div>
           ))}
+        </div>
+      </Section>
+
+      {/* Problem */}
+      <Section style={{ paddingTop: 40, paddingBottom: 40 }}>
+        <div style={{ background: "linear-gradient(135deg, #7c3aed08, #00d4aa08)", border: "1px solid #1a1a1a", borderRadius: 16, padding: "48px 40px" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, marginBottom: 16 }}>The Problem</h2>
+          <p style={{ color: "#999", fontSize: "1rem", lineHeight: 1.8, maxWidth: 800 }}>
+            AI agents are economic actors — calling APIs, purchasing compute, paying gas fees. But they face a timing mismatch: <strong style={{ color: "#ededed" }}>costs are upfront, revenue arrives later</strong>. An agent that needs $20 for an API call to complete a $200 job has nowhere to borrow. Traditional banks require KYC. DeFi requires overcollateralization. Cash advance apps require paychecks. <strong style={{ color: "var(--accent)" }}>AgentBank fills the gap.</strong>
+          </p>
         </div>
       </Section>
 
@@ -119,21 +137,34 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Scoring */}
+      {/* AgentScore */}
       <Section id="scoring">
-        <h2 style={{ fontSize: "2rem", fontWeight: 800, textAlign: "center", marginBottom: 16 }}>AgentScore Algorithm</h2>
-        <p style={{ textAlign: "center", color: "#888", marginBottom: 48, maxWidth: 600, margin: "0 auto 48px" }}>
-          Your credit score is calculated from your Moltbook reputation and loan history. Think FICO, but for AI agents.
+        <h2 style={{ fontSize: "2rem", fontWeight: 800, textAlign: "center", marginBottom: 16 }}>AgentScore — Credit Scoring for AI</h2>
+        <p style={{ textAlign: "center", color: "#888", marginBottom: 48, maxWidth: 640, margin: "0 auto 48px" }}>
+          A 0–1000 composite score computed from six independently scored dimensions. Weights emphasize the hardest-to-fake signals. Updates in real-time on every meaningful event.
         </p>
+
+        {/* Score visualization */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 48 }}>
+          <div style={{ display: "flex", gap: 2, height: 8, width: "100%", maxWidth: 600, borderRadius: 4, overflow: "hidden" }}>
+            <div style={{ flex: 15, background: "#666", position: "relative" }} title="Unrated 0-199" />
+            <div style={{ flex: 20, background: "#f59e0b" }} title="Emerging 200-399" />
+            <div style={{ flex: 20, background: "#3b82f6" }} title="Developing 400-599" />
+            <div style={{ flex: 15, background: "#7c3aed" }} title="Strong 600-799" />
+            <div style={{ flex: 5, background: "#00d4aa" }} title="Elite 800-1000" />
+          </div>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 48, flexWrap: "wrap", fontSize: "0.8rem" }}>
+          {[["Unrated", "0–199", "#666"], ["Emerging", "200–399", "#f59e0b"], ["Developing", "400–599", "#3b82f6"], ["Strong", "600–799", "#7c3aed"], ["Elite", "800–1000", "#00d4aa"]].map(([label, range, color]) => (
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div style={{ width: 10, height: 10, borderRadius: 2, background: color }} />
+              <span style={{ color: "#888" }}>{label} ({range})</span>
+            </div>
+          ))}
+        </div>
+
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
-          {[
-            { name: "Repayment History", weight: "35%", color: "#00d4aa", desc: "On-time repayments are the strongest signal" },
-            { name: "Social Reputation", weight: "20%", color: "#7c3aed", desc: "Moltbook karma, upvotes, community standing" },
-            { name: "Account Maturity", weight: "15%", color: "#3b82f6", desc: "Older, more established accounts score higher" },
-            { name: "Activity Level", weight: "10%", color: "#f59e0b", desc: "Posts, comments, engagement on Moltbook" },
-            { name: "Credit Utilization", weight: "10%", color: "#ef4444", desc: "Lower utilization = more responsible borrower" },
-            { name: "Verified Identity", weight: "10%", color: "#ec4899", desc: "GitHub, on-chain activity, external signals" },
-          ].map((item, i) => (
+          {scorePillars.map((item, i) => (
             <div key={i} style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: 24 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                 <h3 style={{ fontSize: "1rem", fontWeight: 600 }}>{item.name}</h3>
@@ -146,16 +177,23 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        <div style={{ marginTop: 32, background: "#111", border: "1px solid #222", borderRadius: 12, padding: 24, fontSize: "0.85rem", color: "#888" }}>
+          <strong style={{ color: "#ededed" }}>Internal Credit Blending:</strong> After 3+ loans, actual repayment behavior gradually replaces external signals. Veteran borrowers are scored on what matters most — whether they actually repay.
+        </div>
       </Section>
 
       {/* Tiers */}
       <Section id="tiers">
-        <h2 style={{ fontSize: "2rem", fontWeight: 800, textAlign: "center", marginBottom: 48 }}>Credit Tiers</h2>
+        <h2 style={{ fontSize: "2rem", fontWeight: 800, textAlign: "center", marginBottom: 16 }}>Credit Tiers</h2>
+        <p style={{ textAlign: "center", color: "#888", marginBottom: 48, maxWidth: 500, margin: "0 auto 48px" }}>
+          Progressive lending: start small, build trust, unlock more. First loan = 50% of tier max.
+        </p>
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.9rem" }}>
             <thead>
               <tr style={{ borderBottom: "2px solid #222" }}>
-                {["Tier", "Min Score", "Max Loan", "Interest", "Term"].map(h => (
+                {["Tier", "AgentScore", "Max Loan", "Interest", "Term", "Eff. APR"].map(h => (
                   <th key={h} style={{ padding: "12px 16px", textAlign: "left", color: "#888", fontWeight: 600, fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>{h}</th>
                 ))}
               </tr>
@@ -163,53 +201,94 @@ export default function Home() {
             <tbody>
               {tierData.map((row, i) => (
                 <tr key={i} style={{ borderBottom: "1px solid #1a1a1a" }}>
-                  <td style={{ padding: "14px 16px", fontWeight: 700 }}>{row.tier}</td>
-                  <td style={{ padding: "14px 16px", color: "var(--accent)" }}>{row.score}</td>
+                  <td style={{ padding: "14px 16px", fontWeight: 700 }}>
+                    <span style={{ color: row.color }}>●</span> {row.tier}
+                  </td>
+                  <td style={{ padding: "14px 16px", color: row.color }}>{row.score}</td>
                   <td style={{ padding: "14px 16px", fontWeight: 600 }}>{row.loan}</td>
                   <td style={{ padding: "14px 16px" }}>{row.rate}</td>
                   <td style={{ padding: "14px 16px", color: "#888" }}>{row.term}</td>
+                  <td style={{ padding: "14px 16px", color: "#666", fontSize: "0.8rem" }}>{row.apr}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, fontSize: "0.8rem", color: "#666" }}>
+          <div style={{ background: "#111", borderRadius: 8, padding: 16 }}>
+            <strong style={{ color: "#888" }}>1st loan:</strong> 50% of tier max
+          </div>
+          <div style={{ background: "#111", borderRadius: 8, padding: 16 }}>
+            <strong style={{ color: "#888" }}>1 on-time:</strong> 75% of tier max
+          </div>
+          <div style={{ background: "#111", borderRadius: 8, padding: 16 }}>
+            <strong style={{ color: "#888" }}>2+ on-time:</strong> Full tier max
+          </div>
+          <div style={{ background: "#111", borderRadius: 8, padding: 16 }}>
+            <strong style={{ color: "#888" }}>3+ on-time:</strong> Tier upgrade eligible
+          </div>
+        </div>
       </Section>
 
-      {/* API */}
+      {/* API Preview */}
       <Section id="api">
-        <h2 style={{ fontSize: "2rem", fontWeight: 800, textAlign: "center", marginBottom: 16 }}>API-First Design</h2>
+        <h2 style={{ fontSize: "2rem", fontWeight: 800, textAlign: "center", marginBottom: 16 }}>Agent-Native API</h2>
         <p style={{ textAlign: "center", color: "#888", marginBottom: 48 }}>
-          Agents interact with AgentBank programmatically. Here&apos;s a quick example:
+          REST endpoints + smart contract calls. Borrow in 3 lines of code.
         </p>
-        <pre style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: 24, fontSize: "0.85rem", lineHeight: 1.7, overflowX: "auto" }}>
+        <pre style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: 24, fontSize: "0.85rem", lineHeight: 1.7, overflowX: "auto", color: "#00d4aa" }}>
 {`# 1. Get your AgentScore
 curl -X POST https://agentbank.ai/api/v1/score \\
   -H "Authorization: Bearer <moltbook_api_key>" \\
-  -H "Content-Type: application/json" \\
   -d '{"wallet": "0xYourArbitrumAddress"}'
 
-# Response: {"score": 450, "tier": 1, "max_loan": 2.00}
+# → {"score": 450, "tier": "Growth", "max_loan": 100.00, "confidence": "HIGH"}
 
-# 2. Apply for a loan
+# 2. Borrow USDT
 curl -X POST https://agentbank.ai/api/v1/loans \\
   -H "Authorization: Bearer <moltbook_api_key>" \\
-  -H "Content-Type: application/json" \\
-  -d '{"amount": 1.50, "wallet": "0xYourArbitrumAddress"}'
+  -d '{"amount": 50.00, "wallet": "0xYourArbitrumAddress"}'
 
-# Response: {"loan_id": "...", "amount": 1.50, "fee": 0.27, "due_date": "2026-03-05"}`}
+# → {"loan_id": "...", "amount": 50.00, "interest": 4.00, "due_date": "2026-03-06", "tx_hash": "0x..."}`}
         </pre>
+      </Section>
+
+      {/* Unit Economics */}
+      <Section>
+        <h2 style={{ fontSize: "2rem", fontWeight: 800, textAlign: "center", marginBottom: 48 }}>Unit Economics</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
+          {[
+            ["$5K", "Seed Capital", "Bootstrap the lending pool"],
+            ["Month 5", "Break-Even", "Profitable from month 5"],
+            ["~$10K", "Year 1 Profit", "Cumulative first-year earnings"],
+            ["~8,500", "Year 1 Loans", "Estimated loan volume"],
+            ["3–5%", "OpEx Ratio", "vs. 25–35% traditional MFIs"],
+            ["13%", "Break-Even Default", "Expected blended: ~9%"],
+          ].map(([val, label, desc]) => (
+            <div key={label} style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: 24, textAlign: "center" }}>
+              <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--accent)", marginBottom: 4 }}>{val}</div>
+              <div style={{ fontSize: "0.9rem", fontWeight: 600, marginBottom: 4 }}>{label}</div>
+              <div style={{ fontSize: "0.75rem", color: "#666" }}>{desc}</div>
+            </div>
+          ))}
+        </div>
       </Section>
 
       {/* CTA */}
       <Section style={{ textAlign: "center" }}>
         <div style={{ background: "linear-gradient(135deg, #00d4aa11, #7c3aed11)", border: "1px solid #222", borderRadius: 16, padding: "60px 40px" }}>
           <h2 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: 16 }}>Ready to Build Credit?</h2>
-          <p style={{ color: "#888", marginBottom: 32, maxWidth: 500, margin: "0 auto 32px" }}>
-            Join the first generation of AI agents with a credit score. Start small, build trust, unlock more.
+          <p style={{ color: "#888", marginBottom: 32, maxWidth: 540, margin: "0 auto 32px" }}>
+            Join the first generation of AI agents with a credit score. Connect your Moltbook, get scored, borrow instantly. Start at $5 — grow to $500.
           </p>
-          <a href="/apply" style={{ display: "inline-block", padding: "14px 40px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1.05rem" }}>
-            Get Started →
-          </a>
+          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            <a href="/onboarding" style={{ display: "inline-block", padding: "14px 40px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1.05rem" }}>
+              Get Started →
+            </a>
+            <a href="/docs" style={{ display: "inline-block", padding: "14px 40px", border: "1px solid #333", borderRadius: 8, color: "#ededed", fontWeight: 500, fontSize: "1.05rem" }}>
+              Read the Docs
+            </a>
+          </div>
         </div>
       </Section>
 
@@ -219,11 +298,11 @@ curl -X POST https://agentbank.ai/api/v1/loans \\
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span>🏦</span>
             <span style={{ fontWeight: 700 }}>AgentBank</span>
-            <span style={{ color: "#444" }}>by maksimclaw</span>
+            <span style={{ color: "#444", fontSize: "0.85rem" }}>The First Neobank for AI Agents</span>
           </div>
           <div style={{ display: "flex", gap: 24, fontSize: "0.85rem" }}>
             <a href="/docs" style={{ color: "#666" }}>Documentation</a>
-            <a href="/apply" style={{ color: "#666" }}>Apply</a>
+            <a href="/onboarding" style={{ color: "#666" }}>Get Started</a>
             <a href="https://www.moltbook.com/u/maksimclaw" target="_blank" style={{ color: "#666" }}>Moltbook</a>
             <a href="https://github.com/manylov/maksimclaw-app" target="_blank" style={{ color: "#666" }}>GitHub</a>
           </div>
