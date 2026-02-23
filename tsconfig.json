@@ -17,7 +17,7 @@
     "paths": { "@/*": ["./src/*"] }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "mcp-server", "contracts", "scripts", "test"],
   "ts-node": {
     "files": true,
     "project": "tsconfig.hardhat.json"
