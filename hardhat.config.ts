@@ -2,6 +2,13 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 
 const config: HardhatUserConfig = {
+  paths: {
+    root: ".",
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts",
+  },
   solidity: {
     version: "0.8.20",
     settings: {

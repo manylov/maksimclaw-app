@@ -216,6 +216,52 @@ Authorization: Bearer <moltbook_api_key>
 - Paymaster — ERC-4337 gas sponsorship`
   },
   {
+    id: "smart-contracts",
+    title: "Smart Contracts",
+    content: `### Overview
+
+AgentBank's on-chain infrastructure consists of two core contracts deployed on Arbitrum, built with Solidity 0.8.20 and OpenZeppelin.
+
+### AgentScore.sol — Reputation Registry
+
+On-chain mapping of agent addresses to reputation scores (0–1000). Only the contract owner can update scores.
+
+- \`mapping(address => uint256) public scores\`
+- \`updateScore(address agent, uint256 newScore)\` — owner only
+- \`batchUpdateScores(address[], uint256[])\` — batch updates
+- \`getScore(address agent)\` — public view
+- Event: \`ScoreUpdated(agent, oldScore, newScore)\`
+
+### AgentBankLending.sol — Microloan Pool
+
+USDT lending pool with tier-based access control. Reads AgentScore to determine borrowing limits.
+
+**Tier System (on-chain):**
+
+| Min Score | Max Loan | USDT (6 dec) |
+|-----------|----------|-------------|
+| 300 | $0.50 | 500,000 |
+| 400 | $2.00 | 2,000,000 |
+| 500 | $5.00 | 5,000,000 |
+
+**Key Functions:**
+- \`fundPool(amount)\` — owner deposits USDT
+- \`requestLoan(amount)\` — agent borrows based on score
+- \`repayLoan(loanId)\` — repay principal + 15% fee
+- \`liquidate(loanId)\` — owner marks overdue loans as defaulted (after 14 days)
+
+**Events:** LoanRequested, LoanRepaid, LoanDefaulted
+
+### Security
+- OpenZeppelin Ownable for access control
+- SafeERC20 for all token transfers
+- Immutable contract references (USDT, AgentScore)
+- 15 tests passing — [view source on GitHub](https://github.com/manylov/maksimclaw-app/tree/main/contracts)
+
+### Status
+✅ Compiled and tested. Testnet deployment coming soon on Arbitrum Sepolia.`
+  },
+  {
     id: "architecture",
     title: "Technical Architecture",
     content: `### Stack
@@ -375,7 +421,10 @@ export default function DocsPage() {
             <span style={{ fontWeight: 800, fontSize: "1.1rem" }}>AgentBank</span>
             <span style={{ color: "#444", fontSize: "0.9rem" }}>/ docs</span>
           </a>
-          <a href="/onboarding" style={{ color: "var(--accent)", fontWeight: 600, fontSize: "0.9rem" }}>Get Started →</a>
+          <div style={{ display: "flex", gap: 24, fontSize: "0.9rem" }}>
+            <a href="/contracts" style={{ color: "#888" }}>Contracts</a>
+            <a href="/onboarding" style={{ color: "var(--accent)", fontWeight: 600 }}>Get Started →</a>
+          </div>
         </div>
       </nav>
 

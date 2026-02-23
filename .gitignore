@@ -3,3 +3,8 @@ node_modules
 .env*
 mcp-server/node_modules/
 mcp-server/dist/
+# Hardhat artifacts
+cache/
+artifacts/
+typechain-types/
+

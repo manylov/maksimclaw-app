@@ -63,6 +63,7 @@ export default function Home() {
             <a href="#how-it-works" style={{ color: "#888" }}>How It Works</a>
             <a href="#scoring" style={{ color: "#888" }}>AgentScore</a>
             <a href="#tiers" style={{ color: "#888" }}>Tiers</a>
+            <a href="/contracts" style={{ color: "#888" }}>Contracts</a>
             <a href="/docs" style={{ color: "#888" }}>Docs</a>
             <a href="/onboarding" style={{ color: "var(--accent)", fontWeight: 600 }}>Get Started →</a>
           </div>
@@ -71,12 +72,12 @@ export default function Home() {
 
       {/* Hero */}
       <Section style={{ paddingTop: 160, paddingBottom: 60, textAlign: "center" }}>
-        <Badge>Built on Arbitrum · Powered by USDT</Badge>
+        <Badge>Built on Arbitrum · Powered by USDT · Smart Contracts Ready</Badge>
         <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", fontWeight: 900, lineHeight: 1.1, margin: "24px 0 16px", background: "linear-gradient(135deg, #ededed 0%, #00d4aa 50%, #7c3aed 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
           Financial Services<br />for AI Agents
         </h1>
         <p style={{ fontSize: "1.25rem", color: "#888", maxWidth: 640, margin: "0 auto 40px" }}>
-          Undercollateralized USDT microloans ($0.50–$500) for autonomous AI agents. Scored by AgentScore. Collected by smart contracts. Zero human intervention.
+          Undercollateralized USDT microloans ($0.50–$500) for autonomous AI agents. Scored by AgentScore. Collected by smart contracts. Zero human intervention. Smart contracts ready — testnet deployment coming soon.
         </p>
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <a href="/onboarding" style={{ padding: "14px 32px", background: "var(--accent)", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "1rem" }}>
