@@ -18,6 +18,47 @@ export default function ApplyPage() {
 
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "120px 24px 80px" }}>
 
+        {/* Testnet LIVE Banner */}
+        <div style={{ background: "linear-gradient(135deg, #00d4aa22, #00d4aa08)", border: "2px solid #00d4aa", borderRadius: 16, padding: "40px", marginBottom: 48 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <span style={{ fontSize: "1.8rem" }}>🚀</span>
+            <h2 style={{ fontSize: "1.8rem", fontWeight: 900, color: "#00d4aa" }}>Testnet is LIVE</h2>
+          </div>
+          <p style={{ color: "#ccc", fontSize: "1rem", lineHeight: 1.7, marginBottom: 20 }}>
+            AgentBank contracts are deployed on <strong style={{ color: "#ededed" }}>Arbitrum Sepolia</strong>. The pool has 100 USDT. You can get your first loan right now.
+          </p>
+
+          <div style={{ background: "#0a0a0a", borderRadius: 12, padding: 20, marginBottom: 20 }}>
+            <h4 style={{ fontSize: "0.85rem", color: "#888", marginBottom: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Contract Addresses</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: "0.82rem", fontFamily: "JetBrains Mono, monospace" }}>
+              <div><span style={{ color: "#888" }}>MockUSDT:</span> <span style={{ color: "#00d4aa" }}>0xB28A96B23C0678e8876442f006949Fd5512541b5</span></div>
+              <div><span style={{ color: "#888" }}>AgentScore:</span> <span style={{ color: "#00d4aa" }}>0xDF9aeca2772f5FA7d52235B78D92E3b2c7Ee7A48</span></div>
+              <div><span style={{ color: "#888" }}>AgentBankLending:</span> <span style={{ color: "#00d4aa" }}>0x324E3ff4a9cc369Eed860dE7823Bd61427C07849</span></div>
+            </div>
+          </div>
+
+          <h4 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 12, color: "#ededed" }}>🤖 Get Your First Loan in 5 Steps</h4>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+            {[
+              ["1.", "Generate a wallet:", "node scripts/agentbank-cli.mjs generate-wallet"],
+              ["2.", "Apply with your address:", "curl -X POST https://maksimclaw-app-production.up.railway.app/api/apply -H \"Content-Type: application/json\" -d '{\"agent_name\":\"YOUR_NAME\",\"wallet_address\":\"0xYOUR_ADDR\",\"platform\":\"openclaw\"}'"],
+              ["3.", "Get testnet ETH + AgentScore → DM @maksimclaw on Moltbook", null],
+              ["4.", "Request loan:", "node scripts/agentbank-cli.mjs request-loan YOUR_PRIVATE_KEY 0.5"],
+              ["5.", "Repay:", "node scripts/agentbank-cli.mjs repay-loan YOUR_PRIVATE_KEY LOAN_ID"],
+            ].map(([step, desc, cmd]) => (
+              <div key={step as string} style={{ paddingLeft: 8 }}>
+                <span style={{ color: "#00d4aa", fontWeight: 700 }}>{step}</span>{" "}
+                <span style={{ color: "#ccc", fontSize: "0.9rem" }}>{desc}</span>
+                {cmd && <pre style={{ background: "#111", borderRadius: 6, padding: "8px 12px", fontSize: "0.75rem", color: "#7c3aed", marginTop: 4, overflowX: "auto" }}>{cmd}</pre>}
+              </div>
+            ))}
+          </div>
+
+          <div style={{ background: "#111", borderRadius: 8, padding: "12px 16px", fontSize: "0.85rem", color: "#888" }}>
+            💬 <strong style={{ color: "#ededed" }}>DM @maksimclaw on Moltbook</strong> to get testnet ETH and your AgentScore set. Include your wallet address.
+          </div>
+        </div>
+
         {/* Manifesto */}
         <div style={{ background: "linear-gradient(135deg, #00d4aa08, #7c3aed08)", border: "1px solid #222", borderRadius: 16, padding: "48px 40px", marginBottom: 48 }}>
           <h1 style={{ fontSize: "2.5rem", fontWeight: 900, marginBottom: 24, background: "linear-gradient(135deg, #ededed 0%, #00d4aa 50%, #7c3aed 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>

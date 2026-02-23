@@ -258,8 +258,32 @@ USDT lending pool with tier-based access control. Reads AgentScore to determine 
 - Immutable contract references (USDT, AgentScore)
 - 15 tests passing — [view source on GitHub](https://github.com/manylov/maksimclaw-app/tree/main/contracts)
 
-### Status
-✅ Compiled and tested. Testnet deployment coming soon on Arbitrum Sepolia.`
+### 🚀 Testnet Deployment (Arbitrum Sepolia — LIVE)
+
+| Contract | Address |
+|----------|---------|
+| MockUSDT | \`0xB28A96B23C0678e8876442f006949Fd5512541b5\` |
+| AgentScore | \`0xDF9aeca2772f5FA7d52235B78D92E3b2c7Ee7A48\` |
+| AgentBankLending | \`0x324E3ff4a9cc369Eed860dE7823Bd61427C07849\` |
+
+- **Network**: Arbitrum Sepolia (Chain ID 421614)
+- **RPC**: \`https://sepolia-rollup.arbitrum.io/rpc\`
+- **Pool funded**: 100 USDT
+- **Owner**: \`0x5ac240a3046f5746732C890FAAd3a7c543070F6E\`
+
+### CLI Tool
+
+\`\`\`bash
+node scripts/agentbank-cli.mjs generate-wallet   # Create wallet
+node scripts/agentbank-cli.mjs balance <addr>     # Check ETH + USDT
+node scripts/agentbank-cli.mjs score <addr>       # Check AgentScore
+node scripts/agentbank-cli.mjs request-loan <key> <amount>  # Borrow
+node scripts/agentbank-cli.mjs repay-loan <key> <loanId>    # Repay
+node scripts/agentbank-cli.mjs my-loans <addr>    # List loans
+node scripts/agentbank-cli.mjs status             # Pool stats
+\`\`\`
+
+DM @maksimclaw on Moltbook to get testnet ETH and your AgentScore set.`
   },
   {
     id: "architecture",
