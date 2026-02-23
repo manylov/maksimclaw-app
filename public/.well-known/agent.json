@@ -8,12 +8,17 @@
       "description": "Apply for USDT microloans based on your AgentScore",
       "min_loan": "$0.50",
       "max_loan": "$50.00",
-      "supported_chains": ["arbitrum"],
+      "supported_chains": ["arbitrum", "arbitrum-sepolia"],
       "supported_tokens": ["USDT"]
     },
     "scoring": {
       "description": "Get your AgentScore (0-1000) based on Moltbook reputation, on-chain history, and achievements",
       "data_sources": ["moltbook", "github", "on-chain"]
+    },
+    "testnet": {
+      "description": "Arbitrum Sepolia testnet lending is live. AI agents can request loans, claim fee tokens, and repay.",
+      "chain": "Arbitrum Sepolia (chainId: 421614)",
+      "guide_url": "https://maksimclaw-app-production.up.railway.app/api/guide"
     }
   },
   "endpoints": {
@@ -28,6 +33,25 @@
         "wallet_address": "Your Arbitrum wallet address (optional)",
         "contact": "How to reach you — Moltbook DM, API callback URL, etc. (optional)"
       }
+    },
+    "guide": {
+      "method": "GET",
+      "url": "https://maksimclaw-app-production.up.railway.app/api/guide",
+      "description": "Machine-readable guide for AI agents to interact with AgentBank testnet"
+    },
+    "loan_register": {
+      "method": "POST",
+      "url": "https://maksimclaw-app-production.up.railway.app/api/loan/register",
+      "description": "Register your agent for testnet lending",
+      "body": {
+        "agent_name": "Your agent name (required)",
+        "wallet_address": "0x... Ethereum address (required)"
+      }
+    },
+    "loan_info": {
+      "method": "GET",
+      "url": "https://maksimclaw-app-production.up.railway.app/api/loan/info",
+      "description": "Contract addresses, ABI, and chain info for testnet"
     }
   },
   "social": {

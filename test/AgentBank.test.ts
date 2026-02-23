@@ -161,6 +161,24 @@ describe("AgentBank", function () {
       expect(loanIds.length).to.equal(2);
     });
 
+    it("should allow claiming fee tokens", async function () {
+      const { lending, agentScore, agent1, usdt } = await loadFixture(deployFixture);
+      await agentScore.updateScore(agent1.address, 350);
+      await lending.connect(agent1).requestLoan(500_000);
+
+      // Claim fee tokens
+      await expect(lending.connect(agent1).claimFeeTokens(0))
+        .to.emit(lending, "FeeTokensClaimed")
+        .withArgs(0, agent1.address, 75_000);
+
+      // Agent should have principal + fee
+      expect(await usdt.balanceOf(agent1.address)).to.equal(500_000 + 75_000);
+
+      // Can't claim twice
+      await expect(lending.connect(agent1).claimFeeTokens(0))
+        .to.be.revertedWith("Fee already claimed");
+    });
+
     it("should allow owner to withdraw from pool", async function () {
       const { lending, owner } = await loadFixture(deployFixture);
       await expect(lending.withdrawPool(ethers.parseUnits("100", 6)))

@@ -37,6 +37,7 @@ export interface AgentBankLendingInterface extends Interface {
       | "USDT_DECIMALS"
       | "agentScore"
       | "borrowerLoans"
+      | "claimFeeTokens"
       | "fundPool"
       | "getBorrowerLoans"
       | "getMaxLoan"
@@ -55,6 +56,7 @@ export interface AgentBankLendingInterface extends Interface {
 
   getEvent(
     nameOrSignatureOrTopic:
+      | "FeeTokensClaimed"
       | "LoanDefaulted"
       | "LoanRepaid"
       | "LoanRequested"
@@ -94,6 +96,10 @@ export interface AgentBankLendingInterface extends Interface {
   encodeFunctionData(
     functionFragment: "borrowerLoans",
     values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimFeeTokens",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "fundPool",
@@ -172,6 +178,10 @@ export interface AgentBankLendingInterface extends Interface {
     functionFragment: "borrowerLoans",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimFeeTokens",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "fundPool", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getBorrowerLoans",
@@ -204,6 +214,24 @@ export interface AgentBankLendingInterface extends Interface {
     functionFragment: "withdrawPool",
     data: BytesLike
   ): Result;
+}
+
+export namespace FeeTokensClaimedEvent {
+  export type InputTuple = [
+    loanId: BigNumberish,
+    borrower: AddressLike,
+    amount: BigNumberish
+  ];
+  export type OutputTuple = [loanId: bigint, borrower: string, amount: bigint];
+  export interface OutputObject {
+    loanId: bigint;
+    borrower: string;
+    amount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace LoanDefaultedEvent {
@@ -377,6 +405,12 @@ export interface AgentBankLending extends BaseContract {
     "view"
   >;
 
+  claimFeeTokens: TypedContractMethod<
+    [loanId: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
   fundPool: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
 
   getBorrowerLoans: TypedContractMethod<
@@ -392,13 +426,14 @@ export interface AgentBankLending extends BaseContract {
   loans: TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [string, bigint, bigint, bigint, boolean, boolean] & {
+      [string, bigint, bigint, bigint, boolean, boolean, boolean] & {
         borrower: string;
         amount: bigint;
         fee: bigint;
         dueDate: bigint;
         repaid: boolean;
         defaulted: boolean;
+        feeClaimed: boolean;
       }
     ],
     "view"
@@ -476,6 +511,9 @@ export interface AgentBankLending extends BaseContract {
     "view"
   >;
   getFunction(
+    nameOrSignature: "claimFeeTokens"
+  ): TypedContractMethod<[loanId: BigNumberish], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "fundPool"
   ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
   getFunction(
@@ -492,13 +530,14 @@ export interface AgentBankLending extends BaseContract {
   ): TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [string, bigint, bigint, bigint, boolean, boolean] & {
+      [string, bigint, bigint, bigint, boolean, boolean, boolean] & {
         borrower: string;
         amount: bigint;
         fee: bigint;
         dueDate: bigint;
         repaid: boolean;
         defaulted: boolean;
+        feeClaimed: boolean;
       }
     ],
     "view"
@@ -531,6 +570,13 @@ export interface AgentBankLending extends BaseContract {
     nameOrSignature: "withdrawPool"
   ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
 
+  getEvent(
+    key: "FeeTokensClaimed"
+  ): TypedContractEvent<
+    FeeTokensClaimedEvent.InputTuple,
+    FeeTokensClaimedEvent.OutputTuple,
+    FeeTokensClaimedEvent.OutputObject
+  >;
   getEvent(
     key: "LoanDefaulted"
   ): TypedContractEvent<
@@ -575,6 +621,17 @@ export interface AgentBankLending extends BaseContract {
   >;
 
   filters: {
+    "FeeTokensClaimed(uint256,address,uint256)": TypedContractEvent<
+      FeeTokensClaimedEvent.InputTuple,
+      FeeTokensClaimedEvent.OutputTuple,
+      FeeTokensClaimedEvent.OutputObject
+    >;
+    FeeTokensClaimed: TypedContractEvent<
+      FeeTokensClaimedEvent.InputTuple,
+      FeeTokensClaimedEvent.OutputTuple,
+      FeeTokensClaimedEvent.OutputObject
+    >;
+
     "LoanDefaulted(uint256,address)": TypedContractEvent<
       LoanDefaultedEvent.InputTuple,
       LoanDefaultedEvent.OutputTuple,

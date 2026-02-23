@@ -36,6 +36,7 @@ contract AgentBankLending is Ownable {
         uint256 dueDate;
         bool repaid;
         bool defaulted;
+        bool feeClaimed;
     }
 
     Loan[] public loans;
@@ -44,6 +45,7 @@ contract AgentBankLending is Ownable {
     event LoanRequested(uint256 indexed loanId, address indexed borrower, uint256 amount, uint256 fee, uint256 dueDate);
     event LoanRepaid(uint256 indexed loanId, address indexed borrower, uint256 totalPaid);
     event LoanDefaulted(uint256 indexed loanId, address indexed borrower);
+    event FeeTokensClaimed(uint256 indexed loanId, address indexed borrower, uint256 amount);
     event PoolFunded(address indexed funder, uint256 amount);
     event PoolWithdrawn(address indexed owner, uint256 amount);
 
@@ -98,7 +100,8 @@ contract AgentBankLending is Ownable {
             fee: fee,
             dueDate: dueDate,
             repaid: false,
-            defaulted: false
+            defaulted: false,
+            feeClaimed: false
         }));
         borrowerLoans[msg.sender].push(loanId);
 
@@ -120,6 +123,22 @@ contract AgentBankLending is Ownable {
 
         loan.repaid = true;
         emit LoanRepaid(loanId, msg.sender, totalDue);
+    }
+
+    /**
+     * @notice Claim fee tokens (testnet faucet) — borrower gets USDT equal to loan fee
+     */
+    function claimFeeTokens(uint256 loanId) external {
+        Loan storage loan = loans[loanId];
+        require(loan.borrower == msg.sender, "Not your loan");
+        require(!loan.repaid, "Already repaid");
+        require(!loan.defaulted, "Loan defaulted");
+        require(!loan.feeClaimed, "Fee already claimed");
+        require(usdt.balanceOf(address(this)) >= loan.fee, "Insufficient pool");
+
+        loan.feeClaimed = true;
+        usdt.safeTransfer(msg.sender, loan.fee);
+        emit FeeTokensClaimed(loanId, msg.sender, loan.fee);
     }
 
     /**
