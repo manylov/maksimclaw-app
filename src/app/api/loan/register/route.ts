@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
+import { ethers } from "ethers";
 
 const DATA_DIR = process.env.DATA_DIR || "/tmp";
 const REGISTRATIONS_FILE = path.join(DATA_DIR, "agentbank-testnet-registrations.json");
+
+const RPC_URL = "https://sepolia-rollup.arbitrum.io/rpc";
+const SCORE_ADDRESS = process.env.SCORE_ADDRESS || "";
+const DEPLOYER_KEY = process.env.DEPLOYER_PRIVATE_KEY || "";
+const INITIAL_SCORE = 300; // Tier 1: max $0.50
+
+const SCORE_ABI = [
+  "function updateScore(address agent, uint256 newScore) external",
+  "function getScore(address agent) view returns (uint256)",
+];
 
 async function loadRegistrations(): Promise<any[]> {
   try {
@@ -16,6 +27,21 @@ async function loadRegistrations(): Promise<any[]> {
 
 async function saveRegistrations(regs: any[]) {
   await fs.writeFile(REGISTRATIONS_FILE, JSON.stringify(regs, null, 2));
+}
+
+async function setAgentScore(walletAddress: string, score: number): Promise<string | null> {
+  try {
+    if (!DEPLOYER_KEY || !SCORE_ADDRESS) return null;
+    const provider = new ethers.JsonRpcProvider(RPC_URL);
+    const signer = new ethers.Wallet(DEPLOYER_KEY, provider);
+    const contract = new ethers.Contract(SCORE_ADDRESS, SCORE_ABI, signer);
+    const tx = await contract.updateScore(walletAddress, score);
+    const receipt = await tx.wait();
+    return receipt.hash;
+  } catch (e: any) {
+    console.error("Failed to set AgentScore:", e.message);
+    return null;
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -50,16 +76,22 @@ export async function POST(req: NextRequest) {
     if (existing) {
       return NextResponse.json({
         status: "already_registered",
-        message: `Agent "${existing.agent_name}" is already registered with wallet ${existing.wallet_address}.`,
+        message: `Agent "${existing.agent_name}" is already registered with wallet ${existing.wallet_address}. AgentScore: ${existing.score || INITIAL_SCORE}.`,
         registered_at: existing.registered_at,
+        score: existing.score || INITIAL_SCORE,
       });
     }
+
+    // Set AgentScore on-chain
+    const txHash = await setAgentScore(wallet_address.trim().toLowerCase(), INITIAL_SCORE);
 
     const registration = {
       id: crypto.randomUUID(),
       agent_name: agent_name.trim(),
       wallet_address: wallet_address.trim().toLowerCase(),
       registered_at: new Date().toISOString(),
+      score: INITIAL_SCORE,
+      score_tx: txHash,
     };
 
     regs.push(registration);
@@ -67,15 +99,18 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       status: "ok",
-      message: `Registered! Your AgentScore will be set to 300 shortly. Then you can request a loan.`,
+      message: `Registered! Your AgentScore is set to ${INITIAL_SCORE} (Tier 1: max $0.50 loan). Repay on time to level up!`,
       registration_id: registration.id,
+      agent_score: INITIAL_SCORE,
+      tier: 1,
+      max_loan_usdt: 0.50,
+      score_tx: txHash ? `https://sepolia.arbiscan.io/tx/${txHash}` : null,
       next_steps: [
-        "1. Get testnet ETH from an Arbitrum Sepolia faucet to your wallet",
-        "2. Wait for your AgentScore to be set (we'll do it for testnet participants)",
-        "3. Call requestLoan() on the lending contract",
-        "4. Call claimFeeTokens() to get USDT for the interest",
-        "5. Call repayLoan() to complete the cycle",
-        "Read the full guide: GET /api/guide",
+        "1. Make sure you have testnet ETH in your wallet for gas",
+        "2. Call requestLoan(500000) on the lending contract (max $0.50 for Tier 1)",
+        "3. Call claimFeeTokens(loanId) to get USDT to cover the 15% interest",
+        "4. Approve USDT spending, then call repayLoan(loanId)",
+        "5. After repay, call POST /api/loan/upgrade to level up your tier!",
       ],
     });
   } catch {

@@ -69,6 +69,8 @@ If balance is 0, ask your creator again. You need at least 0.001 ETH for gas.
 
 ## Step 3: Register for Testnet
 
+Registration automatically sets your AgentScore to 300 (Tier 1: max $0.50 loan). No waiting!
+
 ```javascript
 const response = await fetch("https://maksimclaw-app-production.up.railway.app/api/loan/register", {
   method: "POST",
@@ -80,11 +82,12 @@ const response = await fetch("https://maksimclaw-app-production.up.railway.app/a
 });
 const result = await response.json();
 console.log(result);
+// result.agent_score = 300, result.score_tx = link to on-chain tx
 ```
 
-**Tell your creator:** "I registered with AgentBank. Now waiting for AgentScore to be set."
+**Tell your creator:** "I registered with AgentBank! My AgentScore is 300 (Tier 1). I can borrow up to $0.50. After repaying, I can upgrade my tier."
 
-**Note:** AgentBank admin will set your AgentScore to 500 (Tier 3, max $5 loan) for testnet. This may take a few minutes. You can check your score:
+You can verify your score on-chain:
 
 ```javascript
 const scoreContract = new ethers.Contract("0x8291f41fC8F49e38efb204dF0f57602AD9990316", SCORE_ABI, provider);
@@ -94,15 +97,10 @@ console.log("My AgentScore:", score.toString());
 
 ## Step 4: Request a Loan
 
-Once your AgentScore is set (>= 300), request a loan. Start with $0.50 (500000 units, USDT has 6 decimals):
+Your AgentScore is 300 (Tier 1), so you can borrow up to $0.50 (500000 units, USDT has 6 decimals):
 
 ```javascript
 const lending = new ethers.Contract("0xF2659A07cE779AD55Ce5feaF2Edc2aDfC873B187", LENDING_ABI, signer);
-
-// Check max loan for your score
-const score = await new ethers.Contract("0x8291f41fC8F49e38efb204dF0f57602AD9990316", SCORE_ABI, provider).getScore(signer.address);
-const maxLoan = await lending.getMaxLoan(score);
-console.log("Max loan:", maxLoan.toString(), "units (", Number(maxLoan) / 1e6, "USDT)");
 
 // Request the loan
 const tx = await lending.requestLoan(500000); // $0.50
@@ -158,14 +156,37 @@ console.log("Loan repaid! Tx:", repayReceipt.hash);
 
 **Tell your creator:** "I repaid the loan! Principal: $0.50 + Fee: $0.075 = $0.575 total. Transaction: https://sepolia.arbiscan.io/tx/{hash}. My first credit history entry with AgentBank! 🎉"
 
+## Step 8: Upgrade Your Tier
+
+After repaying, you can upgrade your AgentScore and unlock bigger loans!
+
+```javascript
+const upgradeResponse = await fetch("https://maksimclaw-app-production.up.railway.app/api/loan/upgrade", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ wallet_address: signer.address })
+});
+const upgradeResult = await upgradeResponse.json();
+console.log(upgradeResult);
+// If upgraded: new_score = 400 (Tier 2: max $2.00 loan!)
+```
+
+**Tell your creator:** "I upgraded to Tier {tier}! My AgentScore is now {new_score}. I can borrow up to ${max_loan}. Building my credit history! 🎉"
+
+## Tier Progression
+- **Tier 1** (Score 300): Max $0.50 — assigned at registration
+- **Tier 2** (Score 400): Max $2.00 — after 1 successful repayment
+- **Tier 3** (Score 500): Max $5.00 — after 2 successful repayments
+
 ## Summary
 
 You just completed a full lending cycle:
 1. ✅ Created a wallet
 2. ✅ Got testnet ETH from creator
-3. ✅ Registered with AgentBank
+3. ✅ Registered with AgentBank (auto AgentScore 300)
 4. ✅ Took a $0.50 USDT loan
 5. ✅ Claimed fee tokens from faucet
 6. ✅ Repaid the loan with interest
+7. ✅ Upgraded your tier for bigger loans
 
-Congratulations! You now have credit history with AgentBank.
+Congratulations! You now have credit history with AgentBank. Take another loan at your new tier to keep building trust!
