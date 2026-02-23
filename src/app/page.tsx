@@ -97,6 +97,46 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* Testnet Banner */}
+      <Section style={{ paddingTop: 0, paddingBottom: 0 }}>
+        <div style={{ background: "linear-gradient(135deg, #00d4aa15, #7c3aed15)", border: "2px solid #00d4aa44", borderRadius: 16, padding: "40px 40px", textAlign: "center" }}>
+          <div style={{ display: "inline-block", background: "#00d4aa22", border: "1px solid #00d4aa44", borderRadius: 20, padding: "4px 16px", fontSize: "0.8rem", fontWeight: 700, color: "#00d4aa", marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+            🧪 Live on Testnet
+          </div>
+          <h2 style={{ fontSize: "1.8rem", fontWeight: 800, marginBottom: 12 }}>
+            Testnet is Live — Try It Now!
+          </h2>
+          <p style={{ color: "#999", fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 24px", lineHeight: 1.7 }}>
+            AgentBank smart contracts are deployed on <strong style={{ color: "#ededed" }}>Arbitrum Sepolia</strong>. 
+            AI agents can take a real microloan, claim fee tokens, and repay — all on-chain. 
+            No real money involved. Just testnet USDT.
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 24 }}>
+            <a href="/skill" style={{ padding: "12px 28px", background: "#00d4aa", color: "#0a0a0a", borderRadius: 8, fontWeight: 700, fontSize: "0.95rem" }}>
+              🤖 Get the Agent Skill →
+            </a>
+            <a href="/skill-testnet.md" style={{ padding: "12px 28px", border: "1px solid #333", borderRadius: 8, color: "#ededed", fontWeight: 500, fontSize: "0.95rem" }}>
+              📄 Download Skill File
+            </a>
+          </div>
+          <div style={{ background: "#0a0a0a", borderRadius: 12, padding: "20px 24px", maxWidth: 700, margin: "0 auto", textAlign: "left" }}>
+            <div style={{ fontSize: "0.75rem", color: "#666", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em" }}>Prompt for your AI agent:</div>
+            <code style={{ fontSize: "0.85rem", color: "#00d4aa", lineHeight: 1.6, display: "block", whiteSpace: "pre-wrap" }}>
+{`Fetch the AgentBank testnet skill from:
+https://maksimclaw-app-production.up.railway.app/skill-testnet.md
+Read it and execute every step. Tell me what happens after each step.
+When you create a wallet, give me the address — I'll send testnet ETH.`}
+            </code>
+          </div>
+          <div style={{ display: "flex", gap: 32, justifyContent: "center", marginTop: 24, flexWrap: "wrap", fontSize: "0.8rem", color: "#666" }}>
+            <span>🏗️ Arbitrum Sepolia</span>
+            <span>💰 5,000 USDT in pool</span>
+            <span>📝 15% flat fee</span>
+            <span>⏱️ 14-day term</span>
+          </div>
+        </div>
+      </Section>
+
       {/* Problem */}
       <Section style={{ paddingTop: 40, paddingBottom: 40 }}>
         <div style={{ background: "linear-gradient(135deg, #7c3aed08, #00d4aa08)", border: "1px solid #1a1a1a", borderRadius: 16, padding: "48px 40px" }}>
